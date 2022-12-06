@@ -127,8 +127,8 @@ void InitTextures()
 	LoadTexture(GL_TEXTURE0, textures[0], "textures/wood.jpg");
 	LoadTexture(GL_TEXTURE1, textures[1], "textures/marble.jpg");
 	LoadTexture(GL_TEXTURE2, textures[2], "textures/dark_stone.jpg");
-	// LoadTexture(GL_TEXTURE3, textures[3], "textures/amber.jpg");
-	// LoadTexture(GL_TEXTURE4, textures[4], "textures/red_granite.jpg");
+	LoadTexture(GL_TEXTURE3, textures[3], "textures/amber.jpg");
+	LoadTexture(GL_TEXTURE4, textures[4], "textures/red_granite.jpg");
 	LoadTexture(GL_TEXTURE5, textures[5], "textures/malachite.jpg");
 }
 
@@ -209,7 +209,7 @@ void InitShader()
 		return;
 	}
 	LoadAttrib(Programs[0], A1_coord, "coord");
-	//LoadAttrib(Programs[0], A1_uv, "uv");
+	LoadAttrib(Programs[0], A1_uv, "uv");
 	LoadUniform(Programs[0], U1_mvp, "mvp");
 	checkOpenGLerror();
 }
@@ -220,90 +220,90 @@ void Draw(sf::Window& window)
 	// 1
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	//glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[0]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	//glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[0]);
 	glDisableVertexAttribArray(A1_coord);
-	//glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 2
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	//glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[1]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	//glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[1]);
 	glDisableVertexAttribArray(A1_coord);
-	//glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 3
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	//glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[2]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	//glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[2]);
 	glDisableVertexAttribArray(A1_coord);
-	//glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 4
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	//glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[3]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	//glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[3]);
 	glDisableVertexAttribArray(A1_coord);
-	//glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	//glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[4]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	//glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[4]);
 	glDisableVertexAttribArray(A1_coord);
-	//glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
 	
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	//glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[5]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	//glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[5]);
 	glDisableVertexAttribArray(A1_coord);
-	//glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	
