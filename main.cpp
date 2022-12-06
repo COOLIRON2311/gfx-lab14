@@ -14,7 +14,7 @@ void Init()
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	sf::Window window(sf::VideoMode(1000, 1000), "Shapes", sf::Style::Default, sf::ContextSettings(24));
+	sf::Window window(sf::VideoMode(1000, 1000), "Objects", sf::Style::Default, sf::ContextSettings(24));
 	SetIcon(window);
 	window.setVerticalSyncEnabled(true); // Вертикальная синхронизация
 	window.setActive(true); // Устанавливаем контекст OpenGL
@@ -161,18 +161,18 @@ void LoadTexture(GLenum tex_enum, GLuint& tex, const char* path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	int width, height, channels; // Загружаем текстуру
-	unsigned char* data = stbi_load(path, &width, &height, &channels, 0);
-	if (data)
+	sf::Image img;
+	if (!img.loadFromFile(path))
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		std::cout << "could not load texture " << path << std::endl;
+		return;
 	}
-	else
-	{
-		std::cout << "Failed to load texture " << path << std::endl;
-	}
-	stbi_image_free(data); // Освобождаем память
+	
+	sf::Vector2u size = img.getSize();
+	int width = size.x;
+	int height = size.y;
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img.getPixelsPtr());
+	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 void InitShader()
@@ -216,11 +216,11 @@ void InitShader()
 
 void Draw(sf::Window& window)
 {
-	window.setTitle("Objects");
 	// 1
+	GLint tex_loc = glGetUniformLocation(Programs[0], "tex");
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(tex_loc, 0);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[0]);
@@ -235,7 +235,7 @@ void Draw(sf::Window& window)
 	// 2
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(tex_loc, 1);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[1]);
@@ -250,7 +250,7 @@ void Draw(sf::Window& window)
 	// 3
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(tex_loc, 2);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[2]);
@@ -265,7 +265,7 @@ void Draw(sf::Window& window)
 	// 4
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(tex_loc, 3);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[3]);
@@ -277,10 +277,9 @@ void Draw(sf::Window& window)
 	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
 
-
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(tex_loc, 4);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[4]);
@@ -291,10 +290,10 @@ void Draw(sf::Window& window)
 	glDisableVertexAttribArray(A1_coord);
 	glDisableVertexAttribArray(A1_uv);
 	glUseProgram(0); // Отключаем шейдерную программу
-	
+
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	glUniform1i(glGetUniformLocation(Programs[0], "tex"), textures[0]);
+	glUniform1i(tex_loc, 5);
 	glEnableVertexAttribArray(A1_coord);
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[5]);
