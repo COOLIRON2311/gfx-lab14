@@ -5,6 +5,8 @@
 
 class Camera
 {
+	float pitch = 0.0f;
+	float yaw = -90.0f;
 public:
 	glm::vec3 Pos;
 	glm::vec3 Front;
@@ -40,40 +42,37 @@ public:
 		Pos += glm::normalize(glm::cross(Front, Up)) * WalkSpeed;
 	}
 
-	void YawPlus()
+	void Update()
 	{
 		glm::vec3 newFront;
-		newFront.x = cos(glm::radians(RotSpeed)) * Front.x - sin(glm::radians(RotSpeed)) * Front.z;
-		newFront.y = Front.y;
-		newFront.z = sin(glm::radians(RotSpeed)) * Front.x + cos(glm::radians(RotSpeed)) * Front.z;
+		newFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+		newFront.y = sin(glm::radians(pitch));
+		newFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 		Front = glm::normalize(newFront);
+	}
+
+	void YawPlus()
+	{
+		yaw += RotSpeed;
+		Update();
 	}
 	
 	void YawMinus()
 	{
-		glm::vec3 newFront;
-		newFront.x = cos(glm::radians(-RotSpeed)) * Front.x - sin(glm::radians(-RotSpeed )) * Front.z;
-		newFront.y = Front.y;
-		newFront.z = sin(glm::radians(-RotSpeed)) * Front.x + cos(glm::radians(-RotSpeed)) * Front.z;
-		Front = glm::normalize(newFront);
+		yaw -= RotSpeed;
+		Update();
 	}
 
 	void PitchPlus()
 	{
-		glm::vec3 newFront;
-		newFront.x = Front.x;
-		newFront.y = cos(glm::radians(RotSpeed)) * Front.y - sin(glm::radians(RotSpeed)) * Front.z;
-		newFront.z = sin(glm::radians(RotSpeed)) * Front.y + cos(glm::radians(RotSpeed)) * Front.z;
-		Front = glm::normalize(newFront);
+		pitch += RotSpeed;
+		Update();
 	}
 	
 	void PitchMinus()
 	{
-		glm::vec3 newFront;
-		newFront.x = Front.x;
-		newFront.y = cos(glm::radians(-RotSpeed)) * Front.y - sin(glm::radians(-RotSpeed)) * Front.z;
-		newFront.z = sin(glm::radians(-RotSpeed)) * Front.y + cos(glm::radians(-RotSpeed)) * Front.z;
-		Front = glm::normalize(newFront);
+		pitch -= RotSpeed;
+		Update();
 	}
 
 	void Perspective()
@@ -94,6 +93,8 @@ public:
 		view = glm::lookAt(Pos, Pos + Front, Up);
 		proj = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
 		model = glm::mat4(1.0f);
+		yaw = -90.0f;
+		pitch = 0.0f;
 	}
 	
 	glm::mat4 MVP()

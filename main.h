@@ -42,15 +42,15 @@ struct Vertex
 	GLfloat x;
 	GLfloat y;
 	GLfloat z;
+	
+	// texture coords
+	GLfloat s;
+	GLfloat t;
 
 	//normals
 	GLfloat nx;
 	GLfloat ny;
 	GLfloat nz;
-	
-	// texture coords
-	GLfloat s;
-	GLfloat t;
 };
 
 // Функция для установки иконки приложения
@@ -132,9 +132,9 @@ int load_obj(const char* filename, vector<Vertex>& out)
 			sscanf_s(s1.c_str(), "%d/%d/%d", &v1, &uv1, &n1);
 			sscanf_s(s2.c_str(), "%d/%d/%d", &v2, &uv2, &n2);
 			sscanf_s(s3.c_str(), "%d/%d/%d", &v3, &uv3, &n3);
-			Vertex ve1 = { vertices[v1 - 1].x, vertices[v1 - 1].y, vertices[v1 - 1].z, normals[n1 - 1].x, normals[n1 - 1].y, normals[n1 - 1].z, uvs[uv1 - 1].x, uvs[uv1 - 1].y };
-			Vertex ve2 = { vertices[v2 - 1].x, vertices[v2 - 1].y, vertices[v2 - 1].z, normals[n2 - 1].x, normals[n2 - 1].y, normals[n2 - 1].z, uvs[uv2 - 1].x, uvs[uv2 - 1].y };
-			Vertex ve3 = { vertices[v3 - 1].x, vertices[v3 - 1].y, vertices[v3 - 1].z, normals[n3 - 1].x, normals[n3 - 1].y, normals[n3 - 1].z, uvs[uv3 - 1].x, uvs[uv3 - 1].y };
+			Vertex ve1 = { vertices[v1 - 1].x, vertices[v1 - 1].y, vertices[v1 - 1].z, uvs[uv1 - 1].x, uvs[uv1 - 1].y, normals[n1 - 1].x, normals[n1 - 1].y, normals[n1 - 1].z };
+			Vertex ve2 = { vertices[v2 - 1].x, vertices[v2 - 1].y, vertices[v2 - 1].z, uvs[uv2 - 1].x, uvs[uv2 - 1].y, normals[n2 - 1].x, normals[n2 - 1].y, normals[n2 - 1].z };
+			Vertex ve3 = { vertices[v3 - 1].x, vertices[v3 - 1].y, vertices[v3 - 1].z, uvs[uv3 - 1].x, uvs[uv3 - 1].y, normals[n3 - 1].x, normals[n3 - 1].y, normals[n3 - 1].z };
 			out.push_back(ve1);
 			out.push_back(ve2);
 			out.push_back(ve3);

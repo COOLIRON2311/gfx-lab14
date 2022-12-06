@@ -14,7 +14,7 @@ void Init()
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	sf::Window window(sf::VideoMode(1000, 1000), "Objects", sf::Style::Default, sf::ContextSettings(24));
+	sf::Window window(sf::VideoMode(1000, 1000), "Light & Magic", sf::Style::Default, sf::ContextSettings(24));
 	SetIcon(window);
 	window.setVerticalSyncEnabled(true); // Вертикальная синхронизация
 	window.setActive(true); // Устанавливаем контекст OpenGL
@@ -225,7 +225,7 @@ void Draw(sf::Window& window)
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[0]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[0]);
 	glDisableVertexAttribArray(A1_coord);
@@ -240,7 +240,7 @@ void Draw(sf::Window& window)
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[1]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[1]);
 	glDisableVertexAttribArray(A1_coord);
@@ -255,7 +255,7 @@ void Draw(sf::Window& window)
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[2]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[2]);
 	glDisableVertexAttribArray(A1_coord);
@@ -270,7 +270,7 @@ void Draw(sf::Window& window)
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[3]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[3]);
 	glDisableVertexAttribArray(A1_coord);
@@ -284,7 +284,7 @@ void Draw(sf::Window& window)
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[4]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[4]);
 	glDisableVertexAttribArray(A1_coord);
@@ -298,7 +298,7 @@ void Draw(sf::Window& window)
 	glEnableVertexAttribArray(A1_uv);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[5]);
 	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[5]);
 	glDisableVertexAttribArray(A1_coord);
