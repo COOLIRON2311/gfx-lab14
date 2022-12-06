@@ -15,6 +15,12 @@ const char* FragShaderSource = R"(
 in vec2 texcoord;
 uniform sampler2D tex;
 
+vec3 Texture()
+{
+	return texture(tex, texcoord);
+}
+
 void main() {
-	gl_FragColor = texture(tex, texcoord);
+	vec3 outp = Texture();
+	gl_FragColor = vec4(outp, 1.0);
 })";

@@ -101,4 +101,20 @@ public:
 		view = glm::lookAt(Pos, Pos + Front, Up);
 		return proj * view * model;
 	}
+
+	glm::mat4 Model()
+	{
+		return model;
+	}
+	
+	glm::mat4 View()
+	{
+		view = glm::lookAt(Pos, Pos + Front, Up);
+		return view;
+	}
+	
+	glm::mat4 Proj()
+	{
+		return proj;
+	}
 };

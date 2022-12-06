@@ -217,7 +217,7 @@ void InitShader()
 void Draw(sf::Window& window)
 {
 	// 1
-	GLint tex_loc = glGetUniformLocation(Programs[0], "tex");
+	GLuint tex_loc = glGetUniformLocation(Programs[0], "tex");
 	glUseProgram(Programs[0]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
 	glUniform1i(tex_loc, 0);
