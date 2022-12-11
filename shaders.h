@@ -1,23 +1,24 @@
 #pragma once
+
 const char* VertexShaderSource = R"(
 #version 330 core
 in vec3 coord;
-in vec2 uv;
-out vec2 texcoord;
+in vec2 texcoord;
+out vec2 uv;
 uniform mat4 mvp;
 void main() {
     gl_Position = mvp * vec4(coord / 2, 1.0);
-	texcoord = uv;
+	uv = texcoord;
 })";
  
 const char* FragShaderSource = R"(
 #version 330 core
-in vec2 texcoord;
+in vec2 uv;
 uniform sampler2D tex;
 
 vec3 Texture()
 {
-	return texture(tex, texcoord);
+	return texture(tex, uv);
 }
 
 void main() {
@@ -26,6 +27,176 @@ void main() {
 })";
 
 //  ======================================================================
+
+const char* PhongVertexSource = R"(
+#version 330 core
+in vec3 coord;
+in vec2 texcoord;
+in vec3 normal;
+
+out vec3 pos;
+out vec2 uv;
+out vec3 norm;
+
+uniform mat4 mvp;
+
+void main() {
+    gl_Position = mvp * vec4(coord, 1.0);
+    pos = coord;
+	uv = texcoord;
+    norm = normal;
+}
+)";
+
+const char* PhongFragSource = R"(
+#version 330 core
+
+in vec3 pos;
+in vec2 uv;
+in vec3 norm;
+
+uniform struct PointLight {
+    vec3 pos;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    vec3 atten;
+} pointl;
+
+uniform struct DirLight {
+    vec3 direction;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+} dirl;
+
+uniform struct SpotLight {
+    vec3 pos;
+    vec3 direction;
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float cutoff;
+    vec3 atten;
+} spotl;
+
+uniform struct Material {
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    vec3 emission;
+    float shininess;
+} material;
+
+uniform sampler2D tex;
+uniform vec3 viewPos;
+
+void main()
+{
+    vec3 viewDir = normalize(viewPos - pos);
+
+    // ===========
+    // Point light
+    // ===========
+    vec3 lightDir = normalize(pointl.pos - pos); // light direction
+    vec3 lightReflDir = reflect(-lightDir, norm); // reflection direction
+    float d = length(lightDir); // distance to light
+
+    float NdotL = max(dot(norm, lightDir), 0); // diffuse shading factor
+    float RdotV = max(dot(lightReflDir, viewDir), 0); // specular shading factor
+
+    float atten = 1.0f / (pointl.atten.x + pointl.atten.y * d + pointl.atten.z * d * d);
+    vec3 spec = pow(RdotV, material.shininess) * pointl.specular * material.specular;
+    vec3 diff = NdotL * material.diffuse * pointl.diffuse;
+
+    vec3 r1 = spec + diff;
+    // vec3 r1 = material.emission;
+    // r1 += material.ambient * pointl.ambient * atten; // ambient
+    // r1 += spec * atten; // specular
+    // r1 += diff * atten; // diffuse
+
+
+    // =================
+    // Directional light
+    // =================
+    lightDir = dirl.direction;
+    lightReflDir = reflect(-lightDir, norm);
+
+    NdotL = max(dot(norm, lightDir), 0);
+    RdotV = max(dot(lightReflDir, viewDir), 0);
+
+    spec = pow(RdotV, material.shininess) * dirl.specular * material.specular;
+    diff = NdotL * material.diffuse * dirl.diffuse;
+    vec3 r2 = spec + diff;
+    // vec3 r2 = material.emission;
+    // r2 += material.ambient * dirl.ambient; // ambient
+    // r2 += spec; // specular
+    // r2 += diff; // diffuse
+
+    // ==========
+    // Spot light
+    // ==========
+    lightDir = normalize(spotl.pos - pos);
+    float theta = dot(lightDir, -normalize(spotl.direction));
+    vec3 r3 = vec3(0.0f);
+
+    if(theta > cos(radians(spotl.cutoff))) {
+        lightReflDir = reflect(-lightDir, norm);
+
+        NdotL = max(dot(norm, lightDir), 0);
+        RdotV = max(dot(lightReflDir, viewDir), 0);
+
+        spec = pow(RdotV, material.shininess) * spotl.specular * material.specular;
+        diff = NdotL * material.diffuse * spotl.diffuse;
+        r3 = spec + diff;
+        // r3 = material.emission;
+        // r3 += material.ambient * spotl.ambient; // ambient
+        // r3 += spec; // specular
+        // r3 += diff; // diffuse
+    }
+
+
+    vec3 res = r1;
+    // vec3 res = r1 + r2 + r3;
+    res += dirl.ambient * material.ambient + material.emission;
+    res *= vec3(texture(tex, uv));
+
+    gl_FragColor = vec4(min(res, 1.0f), 1.0f);
+}
+)";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const char* VertexShaderSource2 = R"(
 #version 330 core
@@ -36,7 +207,8 @@ in vec3 normal;
 // параметры преобразований
 uniform struct Transform {
     mat4 model;
-    mat4 viewProjection;
+    mat4 view;
+    mat4 proj;
     mat3 normal;
     vec3 viewPosition;
 } transform;
@@ -51,7 +223,7 @@ uniform struct PointLight {
 } light;
 
 // параметры направленного источника освещения
-struct DirLight {
+uniform struct DirLight {
     vec3 direction;
     vec3 ambient;
     vec3 diffuse;
@@ -59,7 +231,7 @@ struct DirLight {
 } light2;
 
 // параметры прожектора
-struct SpotLight {
+uniform struct SpotLight {
     vec3 position;
     vec3 ambient;
     vec3 diffuse;

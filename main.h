@@ -21,6 +21,7 @@
 #include <array>
 #include "camera.h"
 #include "shaders.h"
+#include "lights.h"
 
 using namespace std;
 
@@ -32,9 +33,20 @@ array<GLuint, 6> Programs;
 array<GLuint, 6> textures;
 
 GLint A1_coord;
-GLint A1_norm;
-GLint A1_uv;
+GLint A1_normal;
+GLint A1_texcoord;
 GLint U1_mvp;
+
+GLint A2_coord;
+GLint A2_normal;
+GLint A2_texcoord;
+GLint U2_mvp;
+GLint U2_viewPos;
+
+PointLight pl;
+DirLight dl;
+SpotLight sl;
+Material mat;
 
 struct Vertex
 {
@@ -142,3 +154,4 @@ int load_obj(const char* filename, vector<Vertex>& out)
 	}
 	return out.size();
 }
+

@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="lights.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="shaders.h" />
   </ItemGroup>

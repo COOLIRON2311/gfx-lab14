@@ -2,6 +2,64 @@
 
 void Init()
 {
+	//// Point light
+	//pl.pos = glm::vec3(0.0f, 15.0f, 15.0f);
+	//pl.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+	//pl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	//pl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	//pl.atten = glm::vec3(1.0f, 0.0f, 0.0f);
+
+	//// Directional light
+	//dl.direction = glm::vec3(0.0f, -1.0f, 0.0f);
+	//dl.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+	//dl.diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
+	//dl.specular = glm::vec3(1.0f, 0.0f, 0.0f);
+	//
+	//// Spot light
+	//sl.pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	//sl.direction = glm::vec3(1.0f, 1.0f, 1.0f);
+	//sl.ambient = glm::vec3(1.0f, 0.22f, 0.2f);
+	//sl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	//sl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	//sl.cutoff = 12.5f;
+	//sl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
+
+	//// Material
+	//mat.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	//mat.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	//mat.specular = glm::vec3(0.5f, 0.5f, 0.5f);
+	//mat.emission = glm::vec3(0.0f, 0.0f, 0.0f);
+	//mat.shininess = 0.0f;
+	
+	// Point light
+	pl.pos = glm::vec3(-3.12f, 8.2f, 0.0f);
+	pl.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+	pl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	pl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	pl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
+	
+	// Directional light
+	dl.direction = glm::vec3(0.0f, 0.0f, 0.0f);
+	dl.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+	dl.diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
+	dl.specular = glm::vec3(0.0f, 0.0f, 0.0f);
+	
+	// Spot light
+	sl.pos = glm::vec3(0.0f, 0.0f, 8.37f);
+	sl.direction = glm::vec3(0.0f, 0.0f, 0.0f);
+	sl.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+	sl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.cutoff = 1.0f;
+	sl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
+	
+	// Material
+	mat.ambient = glm::vec3(0.5f, 0.5f, 0.5f);
+	mat.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	mat.specular = glm::vec3(0.5f, 0.5f, 0.5f);
+	mat.emission = glm::vec3(0.0f, 0.0f, 0.0f);
+	mat.shininess = 0.0f;
+	
 	//Включаем проверку глубины
 	glEnable(GL_DEPTH_TEST);
 	// Инициализируем шейдеры
@@ -188,121 +246,173 @@ void InitShader()
 	glCompileShader(fShader);
 	std::cout << "fragment shader \n";
 	ShaderLog(fShader);
+
+	GLuint PhongVShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(PhongVShader, 1, &PhongVertexSource, NULL);
+	glCompileShader(PhongVShader);
+	std::cout << "phong vertex shader \n";
+	ShaderLog(PhongVShader);
+	
+	GLuint PhongFShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(PhongFShader, 1, &PhongFragSource, NULL);
+	glCompileShader(PhongFShader);
+	std::cout << "phong fragment shader \n";
+	ShaderLog(PhongFShader);
 	
 	// Создаем шейдерную программу
-	Programs[0] = glCreateProgram();
+	Programs[0] = glCreateProgram(); // No lighting
+	Programs[1] = glCreateProgram(); // Phong
+	
 
 	// Прикрепляем шейдеры к программе
 	glAttachShader(Programs[0], vShader);
 	glAttachShader(Programs[0], fShader);
 
+	glAttachShader(Programs[1], PhongVShader);
+	glAttachShader(Programs[1], PhongFShader);
+
 	// Линкуем шейдерную программу
 	glLinkProgram(Programs[0]);
+	glLinkProgram(Programs[1]);
 
-	int link;
-	glGetProgramiv(Programs[0], GL_LINK_STATUS, &link);
+	int link1, link2;
+	glGetProgramiv(Programs[0], GL_LINK_STATUS, &link1);
+	glGetProgramiv(Programs[1], GL_LINK_STATUS, &link2);
 
 	// Проверяем на ошибки
-	if (!link)
+	if (!link1 || !link2)
 	{
-		std::cout << "error attach shaders \n";
+		std::cout << "could not link shader program" << std::endl;
 		return;
 	}
+	 
 	LoadAttrib(Programs[0], A1_coord, "coord");
-	LoadAttrib(Programs[0], A1_uv, "uv");
+	LoadAttrib(Programs[0], A1_texcoord, "texcoord");
 	LoadUniform(Programs[0], U1_mvp, "mvp");
+
+	LoadAttrib(Programs[1], A2_coord, "coord");
+	LoadAttrib(Programs[1], A2_texcoord, "texcoord");
+	LoadAttrib(Programs[1], A2_normal, "normal");
+	LoadUniform(Programs[1], U2_mvp, "mvp");
+	LoadUniform(Programs[1], U2_viewPos, "viewPos");
 	checkOpenGLerror();
 }
 
 void Draw(sf::Window& window)
 {
 	// 1
-	GLuint tex_loc = glGetUniformLocation(Programs[0], "tex");
-	glUseProgram(Programs[0]);
+	GLuint tex_loc = glGetUniformLocation(Programs[1], "tex");
+	glUseProgram(Programs[1]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUniform3fv(U2_viewPos, 1, glm::value_ptr(cam.Pos));
 	glUniform1i(tex_loc, 0);
-	glEnableVertexAttribArray(A1_coord);
-	glEnableVertexAttribArray(A1_uv);
+	glEnableVertexAttribArray(A2_coord);
+	glEnableVertexAttribArray(A2_texcoord);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[0]);
-	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[0]);
-	glDisableVertexAttribArray(A1_coord);
-	glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A2_coord);
+	glDisableVertexAttribArray(A2_texcoord);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 2
-	glUseProgram(Programs[0]);
-	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUseProgram(Programs[1]);
+	pl.Load(Programs[1]);
+	dl.Load(Programs[1]);
+	sl.Load(Programs[1]);
+	mat.Load(Programs[1]);
+	glUniformMatrix4fv(U2_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUniform3fv(U2_viewPos, 1, glm::value_ptr(cam.Pos));
 	glUniform1i(tex_loc, 1);
-	glEnableVertexAttribArray(A1_coord);
-	glEnableVertexAttribArray(A1_uv);
+	glEnableVertexAttribArray(A2_coord);
+	glEnableVertexAttribArray(A2_texcoord);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[1]);
-	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[1]);
-	glDisableVertexAttribArray(A1_coord);
-	glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A2_coord);
+	glDisableVertexAttribArray(A2_texcoord);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 3
-	glUseProgram(Programs[0]);
-	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUseProgram(Programs[1]);
+	pl.Load(Programs[1]);
+	dl.Load(Programs[1]);
+	sl.Load(Programs[1]);
+	mat.Load(Programs[1]);
+	glUniformMatrix4fv(U2_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUniform3fv(U2_viewPos, 1, glm::value_ptr(cam.Pos));
 	glUniform1i(tex_loc, 2);
-	glEnableVertexAttribArray(A1_coord);
-	glEnableVertexAttribArray(A1_uv);
+	glEnableVertexAttribArray(A2_coord);
+	glEnableVertexAttribArray(A2_texcoord);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[2]);
-	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[2]);
-	glDisableVertexAttribArray(A1_coord);
-	glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A2_coord);
+	glDisableVertexAttribArray(A2_texcoord);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 4
-	glUseProgram(Programs[0]);
-	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUseProgram(Programs[1]);
+	pl.Load(Programs[1]);
+	dl.Load(Programs[1]);
+	sl.Load(Programs[1]);
+	mat.Load(Programs[1]);
+	glUniformMatrix4fv(U2_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUniform3fv(U2_viewPos, 1, glm::value_ptr(cam.Pos));
 	glUniform1i(tex_loc, 3);
-	glEnableVertexAttribArray(A1_coord);
-	glEnableVertexAttribArray(A1_uv);
+	glEnableVertexAttribArray(A2_coord);
+	glEnableVertexAttribArray(A2_texcoord);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[3]);
-	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[3]);
-	glDisableVertexAttribArray(A1_coord);
-	glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A2_coord);
+	glDisableVertexAttribArray(A2_texcoord);
 	glUseProgram(0); // Отключаем шейдерную программу
 
-	glUseProgram(Programs[0]);
-	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUseProgram(Programs[1]);
+	pl.Load(Programs[1]);
+	dl.Load(Programs[1]);
+	sl.Load(Programs[1]);
+	mat.Load(Programs[1]);
+	glUniformMatrix4fv(U2_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUniform3fv(U2_viewPos, 1, glm::value_ptr(cam.Pos));
 	glUniform1i(tex_loc, 4);
-	glEnableVertexAttribArray(A1_coord);
-	glEnableVertexAttribArray(A1_uv);
+	glEnableVertexAttribArray(A2_coord);
+	glEnableVertexAttribArray(A2_texcoord);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[4]);
-	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[4]);
-	glDisableVertexAttribArray(A1_coord);
-	glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A2_coord);
+	glDisableVertexAttribArray(A2_texcoord);
 	glUseProgram(0); // Отключаем шейдерную программу
 
-	glUseProgram(Programs[0]);
-	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUseProgram(Programs[1]);
+	pl.Load(Programs[1]);
+	dl.Load(Programs[1]);
+	sl.Load(Programs[1]);
+	mat.Load(Programs[1]);
+	glUniformMatrix4fv(U2_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	glUniform3fv(U2_viewPos, 1, glm::value_ptr(cam.Pos));
 	glUniform1i(tex_loc, 5);
-	glEnableVertexAttribArray(A1_coord);
-	glEnableVertexAttribArray(A1_uv);
+	glEnableVertexAttribArray(A2_coord);
+	glEnableVertexAttribArray(A2_texcoord);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[5]);
-	glVertexAttribPointer(A1_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(A1_uv, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[5]);
-	glDisableVertexAttribArray(A1_coord);
-	glDisableVertexAttribArray(A1_uv);
+	glDisableVertexAttribArray(A2_coord);
+	glDisableVertexAttribArray(A2_texcoord);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	
@@ -354,7 +464,7 @@ void checkOpenGLerror()
 	if ((errCode = glGetError()) != GL_NO_ERROR)
 	{
 		errString = gluErrorString(errCode);
-		std::cout << "OpenGL error: " << errString << std::endl;
+		std::cout << "OpenGL error: (" << errCode << ") " << errString << std::endl;
 	}
 }
 

@@ -3,6 +3,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+struct Transform {
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 proj;
+	glm::mat3 normal;
+	glm::vec3 viewPosition;
+};
+
 class Camera
 {
 	float pitch = 0.0f;
@@ -117,5 +125,16 @@ public:
 	glm::mat4 Proj()
 	{
 		return proj;
+	}
+
+	Transform GetTransform()
+	{
+		Transform transform;
+		transform.model = model;
+		transform.view = View();
+		transform.proj = proj;
+		transform.normal = glm::mat3(glm::transpose(glm::inverse(transform.model * transform.view)));
+		transform.viewPosition = Pos;
+		return transform;
 	}
 };
