@@ -44,13 +44,12 @@ void main() {
     gl_Position = mvp * vec4(coord, 1.0);
     pos = coord;
 	uv = texcoord;
-    norm = normal;
+    norm = normalize(normal);
 }
 )";
 
 const char* PhongFragSource = R"(
 #version 330 core
-
 in vec3 pos;
 in vec2 uv;
 in vec3 norm;
@@ -119,7 +118,7 @@ void main()
     // =================
     // Directional light
     // =================
-    lightDir = dirl.direction;
+    lightDir = normalize(-dirl.direction);
     lightReflDir = reflect(-lightDir, norm);
 
     NdotL = max(dot(norm, lightDir), 0);
@@ -127,11 +126,11 @@ void main()
 
     spec = pow(RdotV, material.shininess) * dirl.specular * material.specular;
     diff = NdotL * material.diffuse * dirl.diffuse;
-    vec3 r2 = spec + diff;
-    // vec3 r2 = material.emission;
-    // r2 += material.ambient * dirl.ambient; // ambient
-    // r2 += spec; // specular
-    // r2 += diff; // diffuse
+    // vec3 r2 = spec + diff;
+    vec3 r2 = material.emission;
+    r2 += material.ambient * dirl.ambient; // ambient
+    r2 += spec; // specular
+    r2 += diff; // diffuse
 
     // ==========
     // Spot light
@@ -156,9 +155,9 @@ void main()
     }
 
 
-    vec3 res = r1;
+    vec3 res = r2;
     // vec3 res = r1 + r2 + r3;
-    res += dirl.ambient * material.ambient + material.emission;
+    // res += dirl.ambient * material.ambient + material.emission;
     res *= vec3(texture(tex, uv));
 
     gl_FragColor = vec4(min(res, 1.0f), 1.0f);

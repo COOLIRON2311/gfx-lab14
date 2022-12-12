@@ -2,34 +2,34 @@
 
 void Init()
 {
-	//// Point light
-	//pl.pos = glm::vec3(0.0f, 15.0f, 15.0f);
-	//pl.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
-	//pl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-	//pl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-	//pl.atten = glm::vec3(1.0f, 0.0f, 0.0f);
+	/*// Point light
+	pl.pos = glm::vec3(0.0f, 15.0f, 15.0f);
+	pl.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+	pl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	pl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	pl.atten = glm::vec3(1.0f, 0.0f, 0.0f);
 
-	//// Directional light
-	//dl.direction = glm::vec3(0.0f, -1.0f, 0.0f);
-	//dl.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-	//dl.diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
-	//dl.specular = glm::vec3(1.0f, 0.0f, 0.0f);
-	//
-	//// Spot light
-	//sl.pos = glm::vec3(0.0f, 0.0f, 0.0f);
-	//sl.direction = glm::vec3(1.0f, 1.0f, 1.0f);
-	//sl.ambient = glm::vec3(1.0f, 0.22f, 0.2f);
-	//sl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-	//sl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-	//sl.cutoff = 12.5f;
-	//sl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
+	// Directional light
+	dl.direction = glm::vec3(0.0f, -1.0f, 0.0f);
+	dl.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+	dl.diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
+	dl.specular = glm::vec3(1.0f, 0.0f, 0.0f);
 
-	//// Material
-	//mat.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
-	//mat.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
-	//mat.specular = glm::vec3(0.5f, 0.5f, 0.5f);
-	//mat.emission = glm::vec3(0.0f, 0.0f, 0.0f);
-	//mat.shininess = 0.0f;
+	// Spot light
+	sl.pos = glm::vec3(0.0f, 0.0f, 0.0f);
+	sl.direction = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.ambient = glm::vec3(1.0f, 0.22f, 0.2f);
+	sl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.cutoff = 12.5f;
+	sl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
+
+	// Material
+	mat.ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+	mat.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	mat.specular = glm::vec3(0.5f, 0.5f, 0.5f);
+	mat.emission = glm::vec3(0.0f, 0.0f, 0.0f);
+	mat.shininess = 1.0f;*/
 	
 	// Point light
 	pl.pos = glm::vec3(-3.12f, 8.2f, 0.0f);
@@ -39,10 +39,10 @@ void Init()
 	pl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
 	
 	// Directional light
-	dl.direction = glm::vec3(0.0f, 0.0f, 0.0f);
-	dl.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-	dl.diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
-	dl.specular = glm::vec3(0.0f, 0.0f, 0.0f);
+	dl.direction = glm::vec3(0.0f, -1.0f, 0.0f);
+	dl.ambient = glm::vec3(0.5f, 0.5f, 0.5f);
+	dl.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	dl.specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	
 	// Spot light
 	sl.pos = glm::vec3(0.0f, 0.0f, 8.37f);
@@ -58,7 +58,7 @@ void Init()
 	mat.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
 	mat.specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	mat.emission = glm::vec3(0.0f, 0.0f, 0.0f);
-	mat.shininess = 0.0f;
+	mat.shininess = 1.0f;
 	
 	//Включаем проверку глубины
 	glEnable(GL_DEPTH_TEST);
@@ -101,48 +101,48 @@ int main()
 				{
 					cam.PitchPlus();
 				}
-				else if (event.key.code == sf::Keyboard::Down)
+				if (event.key.code == sf::Keyboard::Down)
 				{
 					cam.PitchMinus();
 				}
-				else if (event.key.code == sf::Keyboard::Right)
+				if (event.key.code == sf::Keyboard::Right)
 				{
 					cam.YawPlus();
 				}
-				else if (event.key.code == sf::Keyboard::Left)
+				if (event.key.code == sf::Keyboard::Left)
 				{
 					cam.YawMinus();
 				}
 
 				// Movement
-				else if (event.key.code == sf::Keyboard::W)
+				if (event.key.code == sf::Keyboard::W)
 				{
 					cam.W();
 				}
-				else if (event.key.code == sf::Keyboard::S)
+				if (event.key.code == sf::Keyboard::S)
 				{
 					cam.S();
 				}
-				else if (event.key.code == sf::Keyboard::A)
+				if (event.key.code == sf::Keyboard::A)
 				{
 					cam.A();
 				}
-				else if (event.key.code == sf::Keyboard::D)
+				if (event.key.code == sf::Keyboard::D)
 				{
 					cam.D();
 				}
 
-				else if (event.key.code == sf::Keyboard::F1)
+				if (event.key.code == sf::Keyboard::F1)
 				{
 					cam.Perspective();
 				}
 
-				else if (event.key.code == sf::Keyboard::F2)
+				if (event.key.code == sf::Keyboard::F2)
 				{
 					cam.Ortho();
 				}
 
-				else if (event.key.code == sf::Keyboard::Escape)
+				if (event.key.code == sf::Keyboard::Escape)
 				{
 					cam.Reset();
 				}
@@ -303,18 +303,25 @@ void Draw(sf::Window& window)
 	// 1
 	GLuint tex_loc = glGetUniformLocation(Programs[1], "tex");
 	glUseProgram(Programs[1]);
+	pl.Load(Programs[1]);
+	dl.Load(Programs[1]);
+	sl.Load(Programs[1]);
+	mat.Load(Programs[1]);
 	glUniformMatrix4fv(U1_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
 	glUniform3fv(U2_viewPos, 1, glm::value_ptr(cam.Pos));
 	glUniform1i(tex_loc, 0);
 	glEnableVertexAttribArray(A2_coord);
 	glEnableVertexAttribArray(A2_texcoord);
+	glEnableVertexAttribArray(A2_normal);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[0]);
 	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[0]);
 	glDisableVertexAttribArray(A2_coord);
 	glDisableVertexAttribArray(A2_texcoord);
+	glDisableVertexAttribArray(A2_normal);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 2
@@ -328,13 +335,16 @@ void Draw(sf::Window& window)
 	glUniform1i(tex_loc, 1);
 	glEnableVertexAttribArray(A2_coord);
 	glEnableVertexAttribArray(A2_texcoord);
+	glEnableVertexAttribArray(A2_normal);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[1]);
 	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[1]);
 	glDisableVertexAttribArray(A2_coord);
 	glDisableVertexAttribArray(A2_texcoord);
+	glDisableVertexAttribArray(A2_normal);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 3
@@ -348,13 +358,16 @@ void Draw(sf::Window& window)
 	glUniform1i(tex_loc, 2);
 	glEnableVertexAttribArray(A2_coord);
 	glEnableVertexAttribArray(A2_texcoord);
+	glEnableVertexAttribArray(A2_normal);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[2]);
 	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[2]);
 	glDisableVertexAttribArray(A2_coord);
 	glDisableVertexAttribArray(A2_texcoord);
+	glDisableVertexAttribArray(A2_normal);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// 4
@@ -368,13 +381,16 @@ void Draw(sf::Window& window)
 	glUniform1i(tex_loc, 3);
 	glEnableVertexAttribArray(A2_coord);
 	glEnableVertexAttribArray(A2_texcoord);
+	glEnableVertexAttribArray(A2_normal);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[3]);
 	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[3]);
 	glDisableVertexAttribArray(A2_coord);
 	glDisableVertexAttribArray(A2_texcoord);
+	glDisableVertexAttribArray(A2_normal);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	glUseProgram(Programs[1]);
@@ -387,13 +403,16 @@ void Draw(sf::Window& window)
 	glUniform1i(tex_loc, 4);
 	glEnableVertexAttribArray(A2_coord);
 	glEnableVertexAttribArray(A2_texcoord);
+	glEnableVertexAttribArray(A2_normal);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[4]);
 	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[4]);
 	glDisableVertexAttribArray(A2_coord);
 	glDisableVertexAttribArray(A2_texcoord);
+	glDisableVertexAttribArray(A2_normal);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	glUseProgram(Programs[1]);
@@ -406,13 +425,16 @@ void Draw(sf::Window& window)
 	glUniform1i(tex_loc, 5);
 	glEnableVertexAttribArray(A2_coord);
 	glEnableVertexAttribArray(A2_texcoord);
+	glEnableVertexAttribArray(A2_normal);
 	glBindBuffer(GL_ARRAY_BUFFER, Objects[5]);
 	glVertexAttribPointer(A2_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(A2_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(A2_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glDrawArrays(GL_TRIANGLES, 0, VERTICES[5]);
 	glDisableVertexAttribArray(A2_coord);
 	glDisableVertexAttribArray(A2_texcoord);
+	glDisableVertexAttribArray(A2_normal);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	

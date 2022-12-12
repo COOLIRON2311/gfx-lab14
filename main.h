@@ -33,13 +33,13 @@ array<GLuint, 6> Programs;
 array<GLuint, 6> textures;
 
 GLint A1_coord;
-GLint A1_normal;
 GLint A1_texcoord;
+GLint A1_normal;
 GLint U1_mvp;
 
 GLint A2_coord;
-GLint A2_normal;
 GLint A2_texcoord;
+GLint A2_normal;
 GLint U2_mvp;
 GLint U2_viewPos;
 
