@@ -42,12 +42,13 @@ uniform vec3 viewPos;
 void main()
 {
     vec3 viewDir = normalize(viewPos - pos);
+    vec3 norm2 = normalize(norm);
 
     // ===========
     // Point light
     // ===========
     vec3 lightDir = normalize(pointl.pos - pos); // light direction
-    vec3 lightReflDir = reflect(-lightDir, norm); // reflection direction
+    vec3 lightReflDir = reflect(-lightDir, norm2); // reflection direction
     float d = length(lightDir); // distance to light
 
     float NdotL = max(dot(norm, lightDir), 0); // diffuse shading factor
@@ -57,7 +58,6 @@ void main()
     vec3 spec = pow(RdotV, material.shininess) * pointl.specular * material.specular;
     vec3 diff = NdotL * material.diffuse * pointl.diffuse;
 
-    // vec3 r1 = spec + diff;
     vec3 r1 = material.emission;
     r1 += material.ambient * pointl.ambient * atten; // ambient
     r1 += spec * atten; // specular
@@ -68,9 +68,9 @@ void main()
     // Directional light
     // =================
     lightDir = normalize(-dirl.direction);
-    lightReflDir = reflect(-lightDir, norm);
+    lightReflDir = reflect(-lightDir, norm2);
 
-    NdotL = max(dot(norm, lightDir), 0);
+    NdotL = max(dot(norm2, lightDir), 0);
     RdotV = max(dot(lightReflDir, viewDir), 0);
 
     spec = pow(RdotV, material.shininess) * dirl.specular * material.specular;
@@ -88,9 +88,9 @@ void main()
     vec3 r3 = vec3(0.0f);
 
     if(theta > cos(radians(spotl.cutoff))) {
-        lightReflDir = reflect(-lightDir, norm);
+        lightReflDir = reflect(-lightDir, norm2);
 
-        NdotL = max(dot(norm, lightDir), 0);
+        NdotL = max(dot(norm2, lightDir), 0);
         RdotV = max(dot(lightReflDir, viewDir), 0);
 
         spec = pow(RdotV, material.shininess) * spotl.specular * material.specular;

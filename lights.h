@@ -7,6 +7,9 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 struct PointLight {
 	glm::vec3 pos;
@@ -24,6 +27,20 @@ struct PointLight {
 		glUniform3fv(glGetUniformLocation(program, (prefix + "specular").c_str()), 1, glm::value_ptr(specular));
 		glUniform3fv(glGetUniformLocation(program, (prefix + "atten").c_str()), 1, glm::value_ptr(atten));
 	}
+	void Config()
+	{
+		cout << "Point Light Config" << endl;
+		cout << "Position: (cur.: " << pos.x << ", " << pos.y << ", " << pos.z << ")" << endl;
+		cin >> pos.x >> pos.y >> pos.z;
+		cout << "Ambient: (cur.: " << ambient.x << ", " << ambient.y << ", " << ambient.z << ")" << endl;
+		cin >> ambient.x >> ambient.y >> ambient.z;
+		cout << "Diffuse: (cur.: " << diffuse.x << ", " << diffuse.y << ", " << diffuse.z << ")" << endl;
+		cin >> diffuse.x >> diffuse.y >> diffuse.z;
+		cout << "Specular: (cur.: " << specular.x << ", " << specular.y << ", " << specular.z << ")" << endl;
+		cin >> specular.x >> specular.y >> specular.z;
+		cout << "Attenuation: (cur.: " << atten.x << ", " << atten.y << ", " << atten.z << ")" << endl;
+		cin >> atten.x >> atten.y >> atten.z;
+	}
 };
 
 struct DirLight {
@@ -39,6 +56,18 @@ struct DirLight {
 		glUniform3fv(glGetUniformLocation(program, (prefix + "ambient").c_str()), 1, glm::value_ptr(ambient));
 		glUniform3fv(glGetUniformLocation(program, (prefix + "diffuse").c_str()), 1, glm::value_ptr(diffuse));
 		glUniform3fv(glGetUniformLocation(program, (prefix + "specular").c_str()), 1, glm::value_ptr(specular));
+	}
+	void Config()
+	{
+		cout << "Directional Light Config" << endl;
+		cout << "Direction: (cur.: " << direction.x << ", " << direction.y << ", " << direction.z << ")" << endl;
+		cin >> direction.x >> direction.y >> direction.z;
+		cout << "Ambient: (cur.: " << ambient.x << ", " << ambient.y << ", " << ambient.z << ")" << endl;
+		cin >> ambient.x >> ambient.y >> ambient.z;
+		cout << "Diffuse: (cur.: " << diffuse.x << ", " << diffuse.y << ", " << diffuse.z << ")" << endl;
+		cin >> diffuse.x >> diffuse.y >> diffuse.z;
+		cout << "Specular: (cur.: " << specular.x << ", " << specular.y << ", " << specular.z << ")" << endl;
+		cin >> specular.x >> specular.y >> specular.z;
 	}
 };
 
@@ -61,6 +90,24 @@ struct SpotLight {
 		glUniform3fv(glGetUniformLocation(program, (prefix + "specular").c_str()), 1, glm::value_ptr(specular));
 		glUniform1f(glGetUniformLocation(program, (prefix + "cutoff").c_str()), cutoff);
 		glUniform3fv(glGetUniformLocation(program, (prefix + "atten").c_str()), 1, glm::value_ptr(atten));
+	}
+	void Config()
+	{
+		cout << "Spot Light Config" << endl;
+		cout << "Position: (cur.: " << pos.x << ", " << pos.y << ", " << pos.z << ")" << endl;
+		cin >> pos.x >> pos.y >> pos.z;
+		cout << "Direction: (cur.: " << direction.x << ", " << direction.y << ", " << direction.z << ")" << endl;
+		cin >> direction.x >> direction.y >> direction.z;
+		cout << "Ambient: (cur.: " << ambient.x << ", " << ambient.y << ", " << ambient.z << ")" << endl;
+		cin >> ambient.x >> ambient.y >> ambient.z;
+		cout << "Diffuse: (cur.: " << diffuse.x << ", " << diffuse.y << ", " << diffuse.z << ")" << endl;
+		cin >> diffuse.x >> diffuse.y >> diffuse.z;
+		cout << "Specular: (cur.: " << specular.x << ", " << specular.y << ", " << specular.z << ")" << endl;
+		cin >> specular.x >> specular.y >> specular.z;
+		cout << "Cutoff: (cur.: " << cutoff << ")" << endl;
+		cin >> cutoff;
+		cout << "Attenuation: (cur.: " << atten.x << ", " << atten.y << ", " << atten.z << ")" << endl;
+		cin >> atten.x >> atten.y >> atten.z;
 	}
 };
 

@@ -27,21 +27,30 @@ using namespace std;
 
 Camera cam;
 
+bool test = true;
+
 array<int, 6> VERTICES;
 array<GLuint, 6> Objects;
 array<GLuint, 6> Programs;
 array<GLuint, 6> textures;
 
-GLint A1_coord;
-GLint A1_texcoord;
-GLint A1_normal;
-GLint U1_mvp;
+GLint Phong_coord;
+GLint Phong_texcoord;
+GLint Phong_normal;
+GLint Phong_mvp;
+GLint Phong_viewPos;
 
-GLint A2_coord;
-GLint A2_texcoord;
-GLint A2_normal;
-GLint U2_mvp;
-GLint U2_viewPos;
+GLint Toon_coord;
+GLint Toon_texcoord;
+GLint Toon_normal;
+GLint Toon_mvp;
+GLint Toon_viewPos;
+
+GLint Bidir_coord;
+GLint Bidir_texcoord;
+GLint Bidir_normal;
+GLint Bidir_mvp;
+GLint Bidir_viewPos;
 
 PointLight pl;
 DirLight dl;
