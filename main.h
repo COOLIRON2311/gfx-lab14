@@ -155,3 +155,20 @@ int load_obj(const char* filename, vector<Vertex>& out)
 	return out.size();
 }
 
+const GLchar* const* load_shader(const char* path)
+{
+	ifstream in(path, ios::in);
+	if (!in)
+	{
+		cerr << "Can't open shader " << path << endl;
+		return 0;
+	}
+	string line;
+	string shader;
+	while (getline(in, line))
+	{
+		shader += line + "\n";
+	}
+	const GLchar* const* shader_code = new const GLchar* const(shader.c_str());
+	return shader_code;
+}

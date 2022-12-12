@@ -108,11 +108,11 @@ void main()
     vec3 spec = pow(RdotV, material.shininess) * pointl.specular * material.specular;
     vec3 diff = NdotL * material.diffuse * pointl.diffuse;
 
-    vec3 r1 = spec + diff;
-    // vec3 r1 = material.emission;
-    // r1 += material.ambient * pointl.ambient * atten; // ambient
-    // r1 += spec * atten; // specular
-    // r1 += diff * atten; // diffuse
+    // vec3 r1 = spec + diff;
+    vec3 r1 = material.emission;
+    r1 += material.ambient * pointl.ambient * atten; // ambient
+    r1 += spec * atten; // specular
+    r1 += diff * atten; // diffuse
 
 
     // =================
@@ -126,7 +126,6 @@ void main()
 
     spec = pow(RdotV, material.shininess) * dirl.specular * material.specular;
     diff = NdotL * material.diffuse * dirl.diffuse;
-    // vec3 r2 = spec + diff;
     vec3 r2 = material.emission;
     r2 += material.ambient * dirl.ambient; // ambient
     r2 += spec; // specular
@@ -147,17 +146,13 @@ void main()
 
         spec = pow(RdotV, material.shininess) * spotl.specular * material.specular;
         diff = NdotL * material.diffuse * spotl.diffuse;
-        r3 = spec + diff;
-        // r3 = material.emission;
-        // r3 += material.ambient * spotl.ambient; // ambient
-        // r3 += spec; // specular
-        // r3 += diff; // diffuse
+        r3 = material.emission;
+        r3 += material.ambient * spotl.ambient; // ambient
+        r3 += spec; // specular
+        r3 += diff; // diffuse
     }
 
-
-    vec3 res = r2;
-    // vec3 res = r1 + r2 + r3;
-    // res += dirl.ambient * material.ambient + material.emission;
+    vec3 res = r1 + r2 + r3;
     res *= vec3(texture(tex, uv));
 
     gl_FragColor = vec4(min(res, 1.0f), 1.0f);

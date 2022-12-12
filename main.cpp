@@ -32,10 +32,10 @@ void Init()
 	mat.shininess = 1.0f;*/
 	
 	// Point light
-	pl.pos = glm::vec3(-3.12f, 8.2f, 0.0f);
+	pl.pos = glm::vec3(-3.12f, 8.27f, -2.83f);
 	pl.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
-	pl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-	pl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	pl.diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+	pl.specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	pl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
 	
 	// Directional light
@@ -45,13 +45,20 @@ void Init()
 	dl.specular = glm::vec3(0.5f, 0.5f, 0.5f);
 	
 	// Spot light
-	sl.pos = glm::vec3(0.0f, 0.0f, 8.37f);
+	sl.pos = glm::vec3(-5.0f, -8.37f, -5.0f);
+	sl.direction = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	sl.cutoff = 12.5f;
+	sl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
+	/*/sl.pos = glm::vec3(0.0f, 0.0f, 8.37f);
 	sl.direction = glm::vec3(0.0f, 0.0f, 0.0f);
 	sl.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
 	sl.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
 	sl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
 	sl.cutoff = 1.0f;
-	sl.atten = glm::vec3(0.1f, 0.1f, 0.1f);
+	sl.atten = glm::vec3(0.1f, 0.1f, 0.1f);*/
 	
 	// Material
 	mat.ambient = glm::vec3(0.5f, 0.5f, 0.5f);
