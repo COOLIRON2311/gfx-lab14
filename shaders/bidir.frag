@@ -58,8 +58,12 @@ void main()
 
     // ==================== Spot Light ====================
     lightDir = normalize(spotl.pos - pos);
-    vec4 r3 = col0 * max(dot(n2, lightDir), 0.0) +
+    float theta = dot(lightDir, -normalize(spotl.direction));
+    vec4 r3 = vec4(0.0);
+    if (theta > cos(radians(spotl.cutoff))) {
+        r3 = col0 * max(dot(n2, lightDir), 0.0) +
                  col2 * max(dot(n2, -lightDir), 0.0);
+    }
 
     vec4 res = r1 + r2 + r3;
     res *= texture(tex, uv);
