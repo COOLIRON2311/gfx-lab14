@@ -385,6 +385,30 @@ void Draw(sf::Window& window)
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// Suzanne
+	glUseProgram(Programs[2]);
+	tex_loc = glGetUniformLocation(Programs[2], "tex");
+	pl.Load(Programs[2]);
+	dl.Load(Programs[2]);
+	sl.Load(Programs[2]);
+	mat.Load(Programs[2]);
+	glUniformMatrix4fv(Bidir_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
+	//glUniform3fv(Phong_viewPos, 1, glm::value_ptr(cam.Pos));
+	glUniform1i(tex_loc, 3);
+	glEnableVertexAttribArray(Bidir_coord);
+	glEnableVertexAttribArray(Bidir_texcoord);
+	glEnableVertexAttribArray(Bidir_normal);
+	glBindBuffer(GL_ARRAY_BUFFER, Objects[3]);
+	glVertexAttribPointer(Bidir_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(Bidir_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(Bidir_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDrawArrays(GL_TRIANGLES, 0, VERTICES[3]);
+	glDisableVertexAttribArray(Bidir_coord);
+	glDisableVertexAttribArray(Bidir_texcoord);
+	glDisableVertexAttribArray(Bidir_normal);
+	glUseProgram(0); // Отключаем шейдерную программу
+
+	// Cylinder
 	glUseProgram(Programs[0]);
 	tex_loc = glGetUniformLocation(Programs[0], "tex");
 	pl.Load(Programs[0]);
@@ -393,43 +417,19 @@ void Draw(sf::Window& window)
 	mat.Load(Programs[0]);
 	glUniformMatrix4fv(Phong_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
 	glUniform3fv(Phong_viewPos, 1, glm::value_ptr(cam.Pos));
-	glUniform1i(tex_loc, 3);
+	glUniform1i(tex_loc, 4);
 	glEnableVertexAttribArray(Phong_coord);
 	glEnableVertexAttribArray(Phong_texcoord);
 	glEnableVertexAttribArray(Phong_normal);
-	glBindBuffer(GL_ARRAY_BUFFER, Objects[3]);
+	glBindBuffer(GL_ARRAY_BUFFER, Objects[4]);
 	glVertexAttribPointer(Phong_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glVertexAttribPointer(Phong_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glVertexAttribPointer(Phong_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDrawArrays(GL_TRIANGLES, 0, VERTICES[3]);
+	glDrawArrays(GL_TRIANGLES, 0, VERTICES[4]);
 	glDisableVertexAttribArray(Phong_coord);
 	glDisableVertexAttribArray(Phong_texcoord);
 	glDisableVertexAttribArray(Phong_normal);
-	glUseProgram(0); // Отключаем шейдерную программу
-
-	// Cylinder
-	glUseProgram(Programs[2]);
-	tex_loc = glGetUniformLocation(Programs[2], "tex");
-	pl.Load(Programs[2]);
-	dl.Load(Programs[2]);
-	sl.Load(Programs[2]);
-	mat.Load(Programs[2]);
-	glUniformMatrix4fv(Bidir_mvp, 1, GL_FALSE, glm::value_ptr(cam.MVP()));
-	//glUniform3fv(Bidir_viewPos, 1, glm::value_ptr(cam.Pos));
-	glUniform1i(tex_loc, 4);
-	glEnableVertexAttribArray(Bidir_coord);
-	glEnableVertexAttribArray(Bidir_texcoord);
-	glEnableVertexAttribArray(Bidir_normal);
-	glBindBuffer(GL_ARRAY_BUFFER, Objects[4]);
-	glVertexAttribPointer(Bidir_coord, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(Bidir_texcoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glVertexAttribPointer(Bidir_normal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDrawArrays(GL_TRIANGLES, 0, VERTICES[4]);
-	glDisableVertexAttribArray(Bidir_coord);
-	glDisableVertexAttribArray(Bidir_texcoord);
-	glDisableVertexAttribArray(Bidir_normal);
 	glUseProgram(0); // Отключаем шейдерную программу
 
 	// Cone
