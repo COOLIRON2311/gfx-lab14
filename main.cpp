@@ -243,25 +243,25 @@ void LoadTexture(GLenum tex_enum, GLuint& tex, const char* path)
 void InitShader()
 {
 	GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vShader, 1, &VertexShaderSource, NULL);
+	glShaderSource(vShader, 1, load_shader("shaders/flat.vert"), NULL);
 	glCompileShader(vShader);
 	std::cout << "vertex shader \n";
 	ShaderLog(vShader);
 
 	GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fShader, 1, &FragShaderSource, NULL);
+	glShaderSource(fShader, 1, load_shader("shaders/flat.frag"), NULL);
 	glCompileShader(fShader);
 	std::cout << "fragment shader \n";
 	ShaderLog(fShader);
 
 	GLuint PhongVShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(PhongVShader, 1, &PhongVertexSource, NULL);
+	glShaderSource(PhongVShader, 1, load_shader("shaders/phong.vert"), NULL);
 	glCompileShader(PhongVShader);
 	std::cout << "phong vertex shader \n";
 	ShaderLog(PhongVShader);
 	
 	GLuint PhongFShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(PhongFShader, 1, &PhongFragSource, NULL);
+	glShaderSource(PhongFShader, 1, load_shader("shaders/phong.frag"), NULL);
 	glCompileShader(PhongFShader);
 	std::cout << "phong fragment shader \n";
 	ShaderLog(PhongFShader);

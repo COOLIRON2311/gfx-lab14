@@ -19,8 +19,8 @@
 #include <sstream>
 #include <fstream>
 #include <array>
+#include <locale>
 #include "camera.h"
-#include "shaders.h"
 #include "lights.h"
 
 using namespace std;
@@ -155,20 +155,19 @@ int load_obj(const char* filename, vector<Vertex>& out)
 	return out.size();
 }
 
-const GLchar* const* load_shader(const char* path)
+const GLchar** load_shader(const char* path)
 {
-	ifstream in(path, ios::in);
-	if (!in)
+	ifstream file(path, ios::in);
+	string src;
+
+	while (file.good())
 	{
-		cerr << "Can't open shader " << path << endl;
-		return 0;
+		string line;
+		getline(file, line);
+		src.append(line + "\n");
 	}
-	string line;
-	string shader;
-	while (getline(in, line))
-	{
-		shader += line + "\n";
-	}
-	const GLchar* const* shader_code = new const GLchar* const(shader.c_str());
-	return shader_code;
+;
+	char* out = new char[src.length() + 1];
+	strcpy_s(out, src.length() + 1, src.c_str());
+	return (const GLchar**) & out;
 }
