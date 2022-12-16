@@ -69,14 +69,16 @@ void main()
 
     // ==================== Spot Light ====================
     vec3 lightDir3 = normalize(spotl.pos - pos);
-    float diff3 = max(dot(lightDir3, norm2), 0.0);
+    float diff3 = max(dot(-lightDir3, norm2), 0.0);
     float theta = dot(lightDir3, -normalize(spotl.direction));
-    vec3 r3 = vec3(1.1);
+    vec3 r3 = vec3(0.1);
     if (theta > cos(radians(spotl.cutoff))) {
         if (diff3 < 0.4)
             r3 = vec3(0.3);
         else if (diff3 < 0.7)
             r3 = vec3(1.0);
+        else
+            r3 = vec3(1.1);
     }
 
     vec3 res = r1 + r2 + r3;
