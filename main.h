@@ -25,6 +25,7 @@
 
 using namespace std;
 
+char* out;
 Camera cam;
 
 bool test = true;
@@ -176,7 +177,7 @@ const GLchar** load_shader(const char* path)
 		src.append(line + "\n");
 	}
 ;
-	char* out = new char[src.length() + 1];
+	out = new char[src.length() + 1];
 	strcpy_s(out, src.length() + 1, src.c_str());
 	return (const GLchar**) & out;
 }
